@@ -1,0 +1,138 @@
+service:
+  name: rewards
+# app and org for use with dashboard.serverless.com
+#app: rewards-tracker
+#org: Kannan.S.
+
+
+plugins:
+  - serverless-webpack
+  - serverless-iam-roles-per-function
+  - serverless-dynamodb-local
+  - serverless-offline
+
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+
+  apiGateway:
+    minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
+
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    USER_TABLE: User-${self:provider.stage}
+    IS_OFFLINE: ${env:OFFLINE}
+  
+
+custom:
+  serverless-offline:
+    port: 3003
+
+  dynamodb:
+    stages:
+      - ${self:provider.stage}
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true
+
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+
+functions:
+  createUser:
+    handler: src/lamda/http/createUser.createUser
+    events:
+      - http:
+          method: POST
+          path: user
+          cors: true
+
+    iamRoleStatements:
+      - effect: Allow
+        Action:
+          - codedeploy:'*'
+        Resource: 
+          - '*'
+      - effect: Allow
+        Action: 
+          - dynamodb:PutItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USER_TABLE}
+
+  getAllUsers:
+    handler: src/lamda/http/getAllUsers.getAllUsers
+    events:
+      - http:
+          method: GET
+          path: allusers
+          cors: true
+
+    iamRoleStatements:
+      - effect: Allow
+        Action:
+          - codedeploy:'*'
+        Resource: 
+          - '*'
+      - effect: Allow
+        Action: 
+          - dynamodb:GetItem
+          - dynamodb.Scan
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USER_TABLE}
+
+  getUser:
+    handler: src/lamda/http/getUser.getUser
+    events:
+      - http:
+          method: GET
+          path: user
+          cors: true
+
+    iamRoleStatements:
+      - effect: Allow
+        Action:
+          - codedeploy:'*'
+        Resource: 
+          - '*'
+      - effect: Allow
+        Action: 
+          - dynamodb:GetItem
+          - dynamodb.Scan
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USER_TABLE}
+    
+         
+  hello:
+    handler: src/handler.hello
+    events:
+      - http:
+          method: get
+          path: hello
+
+resources:
+  Resources:
+    GatewayResponseDefault4XX:
+      Type: AWS::ApiGateway::GatewayResponse
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+          gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
+        ResponseType: DEFAULT_4XX
+        RestApiId:
+          Ref: ApiGatewayRestApi
+
+    UserDynamoDBTable:
+      Type: "AWS::DynamoDB::Table"
+      Properties:
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:provider.environment.USER_TABLE}
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
