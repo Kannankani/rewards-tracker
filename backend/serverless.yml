@@ -47,8 +47,8 @@ custom:
     includeModules: true
 
 functions:
-  createUser:
-    ${file(resources/function-createUser.yml)}
+  #createUser:
+  #  ${file(resources/function-createUser.yml)}
 
   getAllUsers:
     ${file(resources/function-getAllUsers.yml)}
@@ -61,9 +61,9 @@ functions:
 
   getRewards:
     ${file(resources/function-getRewards.yml)}
-         
-  hello:
-    ${file(resources/function-hello.yml)}
+
+  giveRewards:
+      ${file(resources/function-giveRewards.yml)}
 
 resources:
   - ${file(resources/api-gateway.yml)}

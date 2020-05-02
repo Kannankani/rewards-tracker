@@ -2,6 +2,10 @@ import { APIGatewayProxyEvent } from "aws-lambda";
 
 import * as AWS  from 'aws-sdk'
 import { parseUserId } from "./auth/authUtils";
+import { RedeemAccess } from "../dataLayer/redeemAccess";
+import { Redeem } from "../dataLayer/dataModel/redeem";
+import { User } from "../dataLayer/dataModel/user";
+import { UserAccess } from "../dataLayer/userAccess";
 
 const s3 = new AWS.S3({
   signatureVersion: 'v4'
@@ -35,12 +39,16 @@ export function getPresignedURL (todoId: string): string {
   })
 }
 
-export function ret_ok(code: number, k,v) {
+export function ret_ok(code: number, k?,v?) {
 
-  const body: string = JSON.stringify({ [k]:v});
+  var body:string
+  if (k== undefined) {
+    body = '{}'
+  }
+  else {
+    body = JSON.stringify({ [k]:v});
+  }
 
-
-  
   return {
       statusCode: code,
       headers: {
@@ -62,4 +70,55 @@ export function ret_err_msg(code: number, msg: string) {
       })
   };
   return r;
+}
+
+export function award_bonus(user: User, description:string,
+   points:number, inRedeemDA?: RedeemAccess) {
+  
+  var redeemDA: RedeemAccess;
+  const redeem = <Redeem> {
+    userId: user.userId,
+    createdAt: new Date().toISOString(),
+    description: description, 
+    points: points
+  }  
+  
+  if (inRedeemDA == undefined)
+    redeemDA = new RedeemAccess()
+  else
+    redeemDA = inRedeemDA
+
+  try {
+    redeemDA.createRedeem (redeem)
+  }
+  catch (err) {
+    throw (err)
+    return
+  }
+}
+
+export function createUserHelper (userId:string, userDA:UserAccess): User {
+
+    var user = <User> {}
+    user.userId = userId
+    user.createdAt = new Date().toISOString()
+    user.pointsTotal = 100
+    user.avatarUrl = null
+
+    try {
+      userDA.createUser (user)
+    }
+    catch (err) {
+      throw (err)
+      return
+    }
+
+    try {
+      award_bonus (user,'sign in bonus', 100)
+    }
+    catch (err) {
+      throw (err)
+      return
+    }
+    return user
 }

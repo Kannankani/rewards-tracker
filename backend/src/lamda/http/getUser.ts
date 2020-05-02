@@ -2,7 +2,7 @@ import { APIGatewayProxyHandler } from 'aws-lambda';
 import 'source-map-support/register';
 import { createLogger } from '../../utils/logger';
 import { UserAccess } from '../../dataLayer/userAccess';
-import { ret_ok, ret_err_msg, getUserId } from '../lamdaUtils';
+import { ret_ok, ret_err_msg, getUserId, createUserHelper } from '../lamdaUtils';
 
 
 
@@ -18,7 +18,12 @@ export const getUser: APIGatewayProxyHandler = async (event, _context) => {
     logger.info ('getuser', {'user' : userId})
 
     try {
-      const user = await userDA.getUser (userId)
+      var user = await userDA.getUser (userId)
+      if (user == undefined) {
+        // user not found, create
+        user = createUserHelper (userId, userDA)
+      }
+
       return ret_ok (200, 'user', user)      
     }
     catch (err) {

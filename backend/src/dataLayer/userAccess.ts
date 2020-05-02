@@ -25,8 +25,7 @@ export class UserAccess {
         }
 
         try {
-            const r = await this.docClient.put(query).promise()
-            this.logger.info ('put result: ', r)
+            await this.docClient.put(query).promise()
         }
         catch (err) {
             throw (err)

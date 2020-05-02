@@ -1,10 +1,7 @@
 
-    handler: src/lamda/http/createUser.createUser
+    handler: src/lamda/http/giveRewards.GiveRewards
     events:
-      - http:
-          method: POST
-          path: user/{userId}
-          cors: true
+      - schedule: rate(5 minutes)
 
     iamRoleStatements:
       - effect: Allow
@@ -16,6 +13,7 @@
         Action: 
           - dynamodb:PutItem
           - dynamodb:GetItem
+          - dynamodb:Scan
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USER_TABLE}
       - effect: Allow
         Action: 
