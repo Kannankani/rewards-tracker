@@ -17,6 +17,9 @@ const urlExpiration = process.env.SIGNED_URL_EXPIRATION
  * @returns a user id from a JWT token
  */
 export function getUserId(event: APIGatewayProxyEvent): string {
+
+  return event.pathParameters.userId
+
   const authorization = event.headers.Authorization
   const split = authorization.split(' ')
   const jwtToken = split[1]
@@ -30,4 +33,33 @@ export function getPresignedURL (todoId: string): string {
     Key: todoId,
     Expires: urlExpiration
   })
+}
+
+export function ret_ok(code: number, k,v) {
+
+  const body: string = JSON.stringify({ [k]:v});
+
+
+  
+  return {
+      statusCode: code,
+      headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true
+      },
+      body: body
+  };
+}
+export function ret_err_msg(code: number, msg: string) {
+  const r = {
+      statusCode: code,
+      headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': true
+      },
+      body: JSON.stringify({
+          err: msg
+      })
+  };
+  return r;
 }

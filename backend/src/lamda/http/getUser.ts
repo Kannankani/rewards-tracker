@@ -2,43 +2,27 @@ import { APIGatewayProxyHandler } from 'aws-lambda';
 import 'source-map-support/register';
 import { createLogger } from '../../utils/logger';
 import { UserAccess } from '../../dataLayer/userAccess';
+import { ret_ok, ret_err_msg, getUserId } from '../lamdaUtils';
 
 
 
 export const getUser: APIGatewayProxyHandler = async (event, _context) => {
     // temp code remove
-    console.log (event)
-    const logger = createLogger('UserDataAccess')
+    console.log (event.headers.Host)
+    const logger = createLogger('GetUser')
     const userDA = new UserAccess()
-    const userId = event.pathParameters.userId
+
+    const userId = getUserId (event)
+
     
-    logger.info ('getuser for', userId)
+    logger.info ('getuser', {'user' : userId})
 
     try {
-      const users = userDA.getUser (userId)
-      return {
-        statusCode: 200,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': true
-        },
-        body: JSON.stringify ({
-          users
-        })
-      }
-      
+      const user = await userDA.getUser (userId)
+      return ret_ok (200, 'user', user)      
     }
     catch (err) {
       logger.info ('get user error:', err)
-      return {
-        statusCode: 500,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': true
-        },
-        body: JSON.stringify({
-          err: 'unable to scan users'
-        })
-      }
+      return ret_err_msg (500, 'unable to get user')
     }
 }

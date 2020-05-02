@@ -1,0 +1,18 @@
+handler: src/lamda/http/getRewards.GetRewards
+events:
+  - http:
+      method: GET
+      path: user/rewards/{userId}
+      cors: true
+
+iamRoleStatements:
+  - effect: Allow
+    Action:
+      - codedeploy:'*'
+    Resource: 
+      - '*'
+  - effect: Allow
+    Action: 
+      - dynamodb:GetItem
+      - dynamodb.Scan
+    Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.REDEEM_TABLE}

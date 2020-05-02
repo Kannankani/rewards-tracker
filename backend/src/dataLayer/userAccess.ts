@@ -20,11 +20,13 @@ export class UserAccess {
 
         const query = {
             TableName: this.userTable,
-            Item: user
+            Item: user,  
+            ReturnValues: 'ALL_OLD'
         }
 
         try {
-            await this.docClient.put(query).promise()
+            const r = await this.docClient.put(query).promise()
+            this.logger.info ('put result: ', r)
         }
         catch (err) {
             throw (err)
@@ -50,7 +52,7 @@ export class UserAccess {
     }
 
     async getUser (userId: string): Promise <User> {
-        this.logger.info ("get user", userId)
+        this.logger.info ("get user for: ", {'user':userId})
         const query = {
             TableName: this.userTable,
             Key: {
@@ -67,15 +69,44 @@ export class UserAccess {
             return
         }
     }
+
+    async updateUser (user: User): Promise<void> {
+        this.logger.info ('update points', user)
+
+
+        const query = {
+            TableName: this.userTable, 
+            Key: { userId: user.userId} ,
+            UpdateExpression: 
+                'set pointsTotal = :v_points',
+            ExpressionAttributeValues: {
+                ':v_points': user.pointsTotal
+            },
+            ReturnValues: 'UPDATED_NEW'
+        }
+
+        try {
+            await this.docClient.update (query).promise()
+            return
+        }
+        catch (err) {
+            this.logger.info ('update err: ', user)
+            throw (err)
+            return
+        }
+
+    }
 }
 
 function createDynamoDBClient(logger) {
     if (process.env.IS_OFFLINE) {
-      logger.info ('Creating a local DynamoDB instance')
+      logger.info ('Creating a local DynamoDB instance: ', 
+        {'url': process.env.DB_OFFLINE_URL})
         // return new XAWS.DynamoDB.DocumentClient({
         return new DocumentClient({
         region: 'localhost',
-        endpoint: 'http://localhost:8000'
+        endpoint: process.env.DB_OFFLINE_URL
+        //endpoint: 'http://localhost:8000'
       })
     }
     const XAWS = AWSXRay.captureAWS(AWS)

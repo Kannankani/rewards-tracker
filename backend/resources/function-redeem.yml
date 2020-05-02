@@ -1,0 +1,24 @@
+
+    handler: src/lamda/http/redeemRewards.RedeemRewards
+    events:
+      - http:
+          method: POST
+          path: user/redeem/{userId}
+          cors: true
+
+    iamRoleStatements:
+      - effect: Allow
+        Action:
+          - codedeploy:'*'
+        Resource: 
+          - '*'
+      - effect: Allow
+        Action: 
+          - dynamodb:PutItem
+          - dynamodb:GetItem
+          - dynamodb.UpdateItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USER_TABLE}
+      - effect: Allow
+        Action: 
+          - dynamodb:PutItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.REDEEM_TABLE}

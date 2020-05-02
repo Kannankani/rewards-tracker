@@ -1,0 +1,5 @@
+handler: src/handler.hello
+events:
+  - http:
+      method: get
+      path: hello

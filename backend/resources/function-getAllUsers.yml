@@ -1,0 +1,18 @@
+handler: src/lamda/http/getAllUsers.getAllUsers
+events:
+  - http:
+      method: GET
+      path: allusers
+      cors: true
+
+iamRoleStatements:
+  - effect: Allow
+    Action:
+      - codedeploy:'*'
+    Resource: 
+      - '*'
+  - effect: Allow
+    Action: 
+      - dynamodb:GetItem
+      - dynamodb.Scan
+    Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USER_TABLE}

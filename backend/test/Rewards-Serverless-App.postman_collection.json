@@ -1,0 +1,191 @@
+{
+	"info": {
+		"_postman_id": "164805e1-6df7-428a-9a8b-4051976b139b",
+		"name": "Rewards-Serverless-App",
+		"description": "Rewards serverless app test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "createUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:3000/dev/user/{{u2}}",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "3000",
+					"path": [
+						"dev",
+						"user",
+						"{{u2}}"
+					]
+				},
+				"description": "crease a new user"
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllUsers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:3000/dev/allusers",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "3000",
+					"path": [
+						"dev",
+						"allusers"
+					]
+				},
+				"description": "Get all users (debugging purpose only). will not work after authentication is enabled"
+			},
+			"response": []
+		},
+		{
+			"name": "Get specific user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:3000/dev/user/{{u1}}",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "3000",
+					"path": [
+						"dev",
+						"user",
+						"{{u1}}"
+					]
+				},
+				"description": "Get one specific user"
+			},
+			"response": []
+		},
+		{
+			"name": "Redeem",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"description\": \"SHow tickets\",\n\t\"points\": 28\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:3000/dev/user/redeem/{{u2}}",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "3000",
+					"path": [
+						"dev",
+						"user",
+						"redeem",
+						"{{u2}}"
+					]
+				},
+				"description": "Redeem rewards for a user"
+			},
+			"response": []
+		},
+		{
+			"name": "GetRewards",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:3000/dev/user/rewards/{{u1}}",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "3000",
+					"path": [
+						"dev",
+						"user",
+						"rewards",
+						"{{u1}}"
+					]
+				},
+				"description": "Get rewards line item details"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "5b1e8b7b-bf33-4f2c-a1ba-272940afa228",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "9010b4f0-a856-4023-93de-91a85cef51ba",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "30136c51-5c97-46f6-98aa-42364030f16f",
+			"key": "host",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "8c363ac6-298c-4ea3-bcad-6983fb316c02",
+			"key": "u1",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "78cedb2f-97ae-4a61-8ab0-df2e96fe93e1",
+			"key": "u2",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "9d4cfe9b-8a10-4dd6-91df-ef6e72826d5b",
+			"key": "d1",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "43e6a649-78f3-40b0-8ac9-dfea8684a10c",
+			"key": "d2",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "e69a12ab-88e6-4882-839c-7fbc726383a2",
+			"key": "d3",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

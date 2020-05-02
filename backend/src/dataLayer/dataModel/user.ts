@@ -1,6 +1,6 @@
 export interface User {
     userId: string
     createdAt: string
-    rewardsTotal: number
+    pointsTotal: number
     avatarUrl?: string
   }
