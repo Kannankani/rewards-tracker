@@ -7,28 +7,6 @@
 	},
 	"item": [
 		{
-			"name": "createUser",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "http://{{host}}:3000/dev/user/{{u2}}",
-					"protocol": "http",
-					"host": [
-						"{{host}}"
-					],
-					"port": "3000",
-					"path": [
-						"dev",
-						"user",
-						"{{u2}}"
-					]
-				},
-				"description": "crease a new user"
-			},
-			"response": []
-		},
-		{
 			"name": "GetAllUsers",
 			"request": {
 				"method": "GET",
@@ -55,7 +33,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{host}}:3000/dev/user/{{u1}}",
+					"raw": "http://{{host}}:3000/dev/user/{{u2}}",
 					"protocol": "http",
 					"host": [
 						"{{host}}"
@@ -64,7 +42,7 @@
 					"path": [
 						"dev",
 						"user",
-						"{{u1}}"
+						"{{u2}}"
 					]
 				},
 				"description": "Get one specific user"
@@ -78,7 +56,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"description\": \"SHow tickets\",\n\t\"points\": 28\n}",
+					"raw": "{\n\t\"description\": \"Hotel Booking\",\n\t\"points\": 45\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -86,7 +64,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{host}}:3000/dev/user/redeem/{{u2}}",
+					"raw": "http://{{host}}:3000/dev/user/redeem/{{u1}}",
 					"protocol": "http",
 					"host": [
 						"{{host}}"
@@ -96,7 +74,7 @@
 						"dev",
 						"user",
 						"redeem",
-						"{{u2}}"
+						"{{u1}}"
 					]
 				},
 				"description": "Redeem rewards for a user"
@@ -109,7 +87,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{host}}:3000/dev/user/rewards/{{u1}}",
+					"raw": "http://{{host}}:3000/dev/user/rewards/{{u2}}",
 					"protocol": "http",
 					"host": [
 						"{{host}}"
@@ -119,14 +97,74 @@
 						"dev",
 						"user",
 						"rewards",
-						"{{u1}}"
+						"{{u2}}"
 					]
 				},
 				"description": "Get rewards line item details"
 			},
 			"response": []
+		},
+		{
+			"name": "Invalid Redeem",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"description\": \"Space Travel\",\n\t\"points\": 10000\n}"
+				},
+				"url": {
+					"raw": "http://{{host}}:3000/dev/user/redeem/{{u1}}",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "3000",
+					"path": [
+						"dev",
+						"user",
+						"redeem",
+						"{{u1}}"
+					]
+				},
+				"description": "Trying to redeem 10000 ponts that shoud give error"
+			},
+			"response": []
+		},
+		{
+			"name": "getUploadURL",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:3000/dev/user/uploadurl/url-user-1",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "3000",
+					"path": [
+						"dev",
+						"user",
+						"uploadurl",
+						"url-user-1"
+					]
+				},
+				"description": "get a presiged URL to upload avatar"
+			},
+			"response": []
 		}
 	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
@@ -151,38 +189,56 @@
 	],
 	"variable": [
 		{
-			"id": "30136c51-5c97-46f6-98aa-42364030f16f",
+			"id": "8115585d-d3aa-467b-80d8-f59d281b99cc",
 			"key": "host",
 			"value": "",
 			"type": "string"
 		},
 		{
-			"id": "8c363ac6-298c-4ea3-bcad-6983fb316c02",
+			"id": "cd8062bf-140f-4140-9b63-20fae2c628f6",
 			"key": "u1",
 			"value": "",
 			"type": "string"
 		},
 		{
-			"id": "78cedb2f-97ae-4a61-8ab0-df2e96fe93e1",
+			"id": "0b8c7a5a-98ae-4aeb-bb4c-a6b835013187",
 			"key": "u2",
 			"value": "",
 			"type": "string"
 		},
 		{
-			"id": "9d4cfe9b-8a10-4dd6-91df-ef6e72826d5b",
+			"id": "d8d406fc-427a-4648-97ef-c504419150d3",
+			"key": "u3",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "23998734-feb5-4578-8f0c-1740662b40c4",
 			"key": "d1",
 			"value": "",
 			"type": "string"
 		},
 		{
-			"id": "43e6a649-78f3-40b0-8ac9-dfea8684a10c",
+			"id": "9bc4f8ed-0c08-4293-84ea-c845120251b1",
 			"key": "d2",
 			"value": "",
 			"type": "string"
 		},
 		{
-			"id": "e69a12ab-88e6-4882-839c-7fbc726383a2",
+			"id": "3f65460c-f7e3-430e-9599-75220486b712",
 			"key": "d3",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "72099d39-894c-4243-8ebd-fc8ad06cb80b",
+			"key": "currentAccessToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "9ded564e-5172-4d17-a2a7-7e4c65f60c9a",
+			"key": "accessTokenExpiry",
 			"value": "",
 			"type": "string"
 		}

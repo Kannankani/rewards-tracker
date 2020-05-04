@@ -5,11 +5,12 @@ import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 
 import { createLogger } from '../utils/logger'
 import { Redeem } from './dataModel/redeem'
+import { User } from './dataModel/user'
 
 
 export class RedeemAccess {
     constructor (
-        private readonly logger = createLogger('UserDataAccess'),
+        private readonly logger = createLogger('RedeemDataAccess'),
         private readonly redeemTable = process.env.REDEEM_TABLE,
         private readonly docClient: DocumentClient = createDynamoDBClient(logger)
     ) {}
@@ -69,6 +70,28 @@ export class RedeemAccess {
         }
     }
 
+    async deleteRedeems (user: User): Promise <void> {
+        this.logger.info ('delete redeem')
+
+        try {
+            const redeems = this.getRedeem4User (user.userId)
+            if (redeems != undefined) {
+                (await redeems).forEach (this.deleteRedeem, this)
+            }
+        }
+        catch (err) { throw (err) }
+    }
+
+    async deleteRedeem (redeem: Redeem): Promise <void> {
+        const query = {
+            TableName: this.redeemTable,
+            Key: { 
+                userId: redeem.userId,
+                createdAt: redeem.createdAt
+            }
+        }
+        await this.docClient.delete (query). promise()
+    }
 
 }
 

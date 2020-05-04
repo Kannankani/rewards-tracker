@@ -95,6 +95,48 @@ export class UserAccess {
         }
 
     }
+
+
+    async updateUserURL (user: User): Promise<void> {
+        this.logger.info ('update URL', user)
+
+
+        const query = {
+            TableName: this.userTable, 
+            Key: { userId: user.userId} ,
+            UpdateExpression: 
+                'set avatarUrl = :v_URL',
+            ExpressionAttributeValues: {
+                ':v_URL': user.avatarUrl
+            },
+            ReturnValues: 'UPDATED_NEW'
+        }
+
+        try {
+            await this.docClient.update (query).promise()
+            return
+        }
+        catch (err) {
+            this.logger.info ('update err: ', user)
+            throw (err)
+            return
+        }
+    }
+
+    async deleteUser (userId: string): Promise <void> {
+        this.logger.info ('delete user')
+        const query = {
+            TableName: process.env.USER_TABLE,
+            Key  : { userId: userId }
+        }
+
+        try {
+            await this.docClient.delete (query).promise()
+        }
+        catch (err) {
+            throw (err)
+        }
+    }
 }
 
 function createDynamoDBClient(logger) {

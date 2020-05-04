@@ -49,5 +49,4 @@ export const GiveRewards: APIGatewayProxyHandler = async ({}, _context) => {
 
     }
     ret_ok (200)
-    
 }

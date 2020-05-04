@@ -30,6 +30,9 @@ export const RedeemRewards: APIGatewayProxyHandler = async (event, _context) => 
 
     try {
         user = await userDA.getUser (userId)
+        if (user == undefined) {
+            return ret_err_msg (500, 'user not found')
+        }
     }
     catch (err) {
         logger.info ('unable to get user: ', err)

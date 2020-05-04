@@ -1,10 +1,11 @@
 
-    handler: src/lamda/http/createUser.createUser
+    handler: src/lambda/http/createUser.createUser
     events:
       - http:
           method: POST
-          path: user/{userId}
+          path: user
           cors: true
+          authorizer: Auth
 
     iamRoleStatements:
       - effect: Allow

@@ -1,9 +1,10 @@
-handler: src/lamda/http/getAllUsers.getAllUsers
+handler: src/lambda/http/getAllUsers.getAllUsers
 events:
   - http:
       method: GET
       path: allusers
       cors: true
+      authorizer: Auth
 
 iamRoleStatements:
   - effect: Allow

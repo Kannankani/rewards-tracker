@@ -1,7 +1,11 @@
 
-    handler: src/lambda/http/giveRewards.GiveRewards
+    handler: src/lambda/http/deleteUser.DeleteUser
     events:
-      - schedule: rate(${self:provider.environment.REWARDS_RUN_SCHEDULE})
+      - http:
+          method: DELETE
+          path: user
+          cors: true
+          authorizer: Auth
 
     iamRoleStatements:
       - effect: Allow
@@ -11,12 +15,11 @@
           - '*'
       - effect: Allow
         Action: 
-          - dynamodb:PutItem
+          - dynamodb:DeleteItem
           - dynamodb:GetItem
-          - dynamodb:Scan
-          - dynamodb.UpdateItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USER_TABLE}
       - effect: Allow
         Action: 
-          - dynamodb:PutItem
+          - dynamodb:DeleteItem
+          - dynamodb:Scan
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.REDEEM_TABLE}

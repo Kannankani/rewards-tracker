@@ -28,6 +28,9 @@ provider:
     REDEEM_TABLE: Redeem-${self:provider.stage}
     IS_OFFLINE: ${env:OFFLINE}
     DB_OFFLINE_URL: 'http://localhost:8000'
+    IMAGES_S3_BUCKET: serverless-sk-reward-tracker-${self:provider.stage}
+    SIGNED_URL_EXPIRATION: 300
+    REWARDS_RUN_SCHEDULE: '5 minutes'
   
 
 custom:
@@ -50,11 +53,17 @@ functions:
   #createUser:
   #  ${file(resources/function-createUser.yml)}
 
+  Auth:
+    handler: src/lambda/auth/auth0Authorizer.handler
+
   getAllUsers:
     ${file(resources/function-getAllUsers.yml)}
 
   getUser:
     ${file(resources/function-getUser.yml)}
+
+  deleteUser:
+      ${file(resources/function-deleteUser.yml)}
 
   redeemRewards:
     ${file(resources/function-redeem.yml)}
@@ -65,8 +74,11 @@ functions:
   giveRewards:
       ${file(resources/function-giveRewards.yml)}
 
+  getSignedURL:
+      ${file(resources/function-getUploadURL.yml)}
+
 resources:
   - ${file(resources/api-gateway.yml)}
   - ${file(resources/dynamodb-redeem.yml)}
   - ${file(resources/dynamodb-user.yml)}
-    
+  - ${file(resources/s3-bucket.yml)}

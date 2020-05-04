@@ -1,8 +1,8 @@
-handler: src/lambda/http/getUser.getUser
+handler: src/lambda/http/getUploadURL.GetUploadURL
 events:
   - http:
-      method: GET
-      path: user
+      method: POST
+      path: user/uploadurl
       cors: true
       authorizer: Auth
 
@@ -16,9 +16,10 @@ iamRoleStatements:
     Action: 
       - dynamodb:GetItem
       - dyanmodb.PutItem
+      - dynamodb.UpdateItem
     Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USER_TABLE}
-  - effect: Allow
-    Action: 
-      - dynamodb:PutItem
-    Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.REDEEM_TABLE}
-
+  - Effect: Allow
+    Action:
+      - s3:PutObject
+      - s3:GetObject
+    Resource: arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*

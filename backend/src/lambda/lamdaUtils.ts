@@ -22,7 +22,8 @@ const urlExpiration = process.env.SIGNED_URL_EXPIRATION
  */
 export function getUserId(event: APIGatewayProxyEvent): string {
 
-  return event.pathParameters.userId
+  //if (!(event.pathParameters.userId == undefined))
+  //  return event.pathParameters.userId
 
   const authorization = event.headers.Authorization
   const split = authorization.split(' ')

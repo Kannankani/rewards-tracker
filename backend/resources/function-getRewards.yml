@@ -1,9 +1,10 @@
-handler: src/lamda/http/getRewards.GetRewards
+handler: src/lambda/http/getRewards.GetRewards
 events:
   - http:
       method: GET
-      path: user/rewards/{userId}
+      path: user/rewards
       cors: true
+      authorizer: Auth
 
 iamRoleStatements:
   - effect: Allow

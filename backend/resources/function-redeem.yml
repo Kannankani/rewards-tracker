@@ -1,10 +1,11 @@
 
-    handler: src/lamda/http/redeemRewards.RedeemRewards
+    handler: src/lambda/http/redeemRewards.RedeemRewards
     events:
       - http:
           method: POST
-          path: user/redeem/{userId}
+          path: user/redeem
           cors: true
+          authorizer: Auth
 
     iamRoleStatements:
       - effect: Allow
