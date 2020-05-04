@@ -25,7 +25,8 @@ export class UserAccess {
         }
 
         try {
-            await this.docClient.put(query).promise()
+            const r = await this.docClient.put(query).promise()
+            this.logger.info ('create user response: ', r)
         }
         catch (err) {
             throw (err)
@@ -150,6 +151,7 @@ function createDynamoDBClient(logger) {
         //endpoint: 'http://localhost:8000'
       })
     }
+    logger.info ('creating aws xray db instance')
     const XAWS = AWSXRay.captureAWS(AWS)
     return new XAWS.DynamoDB.DocumentClient()
 }

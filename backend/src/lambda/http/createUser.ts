@@ -18,7 +18,7 @@ export const createUser: APIGatewayProxyHandler = async (event, _context) => {
     logger.info ('creating user')
 
     try {
-      user = createUserHelper (userId, userDA)
+      user = await createUserHelper (userId, userDA)
     }
     catch (err) {
       logger.info ('create user error:', err)

@@ -73,8 +73,8 @@ export function ret_err_msg(code: number, msg: string) {
   return r;
 }
 
-export function award_bonus(user: User, description:string,
-   points:number, inRedeemDA?: RedeemAccess) {
+export async function award_bonus(user: User, description:string,
+   points:number, inRedeemDA?: RedeemAccess) : Promise<void>{
   
   var redeemDA: RedeemAccess;
   const redeem = <Redeem> {
@@ -90,7 +90,7 @@ export function award_bonus(user: User, description:string,
     redeemDA = inRedeemDA
 
   try {
-    redeemDA.createRedeem (redeem)
+    await redeemDA.createRedeem (redeem)
   }
   catch (err) {
     throw (err)
@@ -98,7 +98,7 @@ export function award_bonus(user: User, description:string,
   }
 }
 
-export function createUserHelper (userId:string, userDA:UserAccess): User {
+export async function createUserHelper (userId:string, userDA:UserAccess): Promise<User> {
 
     var user = <User> {}
     user.userId = userId
@@ -107,7 +107,7 @@ export function createUserHelper (userId:string, userDA:UserAccess): User {
     user.avatarUrl = null
 
     try {
-      userDA.createUser (user)
+      await userDA.createUser (user)
     }
     catch (err) {
       throw (err)
@@ -115,7 +115,7 @@ export function createUserHelper (userId:string, userDA:UserAccess): User {
     }
 
     try {
-      award_bonus (user,'sign in bonus', 100)
+      await award_bonus (user,'sign in bonus', 100)
     }
     catch (err) {
       throw (err)

@@ -21,7 +21,7 @@ export const getUser: APIGatewayProxyHandler = async (event, _context) => {
       var user = await userDA.getUser (userId)
       if (user == undefined) {
         // user not found, create
-        user = createUserHelper (userId, userDA)
+        user = await createUserHelper (userId, userDA)
       }
 
       return ret_ok (200, 'user', user)      

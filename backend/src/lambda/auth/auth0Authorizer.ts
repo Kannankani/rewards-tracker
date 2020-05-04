@@ -9,7 +9,7 @@ import { JwtPayload } from './authModels/JwtPayload'
 
 
 const logger = createLogger('auth')
-const jwksUrl = 'https://dev-4qddwwc2.auth0.com/.well-known/jwks.json'
+// const jwksUrl = 'https://dev-4qddwwc2.auth0.com/.well-known/jwks.json'
 
 
 const cert = `-----BEGIN CERTIFICATE-----
@@ -89,23 +89,6 @@ async function verifyToken(authHeader: string): Promise<JwtPayload> {
   // You should implement it similarly to how it was implemented for the exercise for the lesson 5
   // You can read more about how to do this here: https://auth0.com/blog/navigating-rs256-and-jwks/
  
-  return retJwt
-
-}
-
-async function verifyTokenNew (authHeader: string): Promise<JwtPayload> {
-  const token = getToken(authHeader)
-  var jwksClient = require('jwks-rsa');
-
-  function getKey(header, callback){
-    jwksClient.getSigningKey(header.kid, function(err, key) {
-      var signingKey = key.publicKey || key.rsaPublicKey;
-      callback(null, signingKey);
-    });
-  }
-
-  const retJwt = verify(token, getKey, { algorithms: ['RS256']}) as JwtPayload
-
   return retJwt
 
 }

@@ -7,16 +7,16 @@ events:
       authorizer: Auth
 
 iamRoleStatements:
-  - effect: Allow
+  - Effect: Allow
     Action:
       - codedeploy:'*'
     Resource: 
       - '*'
-  - effect: Allow
+  - Effect: Allow
     Action: 
       - dynamodb:GetItem
-      - dyanmodb.PutItem
-      - dynamodb.UpdateItem
+      - dyanmodb:PutItem
+      - dynamodb:UpdateItem
     Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USER_TABLE}
   - Effect: Allow
     Action:

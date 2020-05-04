@@ -104,6 +104,7 @@ function createDynamoDBClient(logger) {
         endpoint: process.env.DB_OFFLINE_URL
       })
     }
+    logger.info ('creating aws xray db instance')
     const XAWS = AWSXRay.captureAWS(AWS)
     return new XAWS.DynamoDB.DocumentClient()
 }

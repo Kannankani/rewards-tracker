@@ -40,7 +40,7 @@ export const GiveRewards: APIGatewayProxyHandler = async ({}, _context) => {
                 logger.info ('bonus update error for user', user.userId)
             }
             try {
-                award_bonus (user, 'Loyalty bonus', loyatyPoints, redeemDA)
+                await award_bonus (user, 'Loyalty bonus', loyatyPoints, redeemDA)
             }
             catch (err) {
                 logger.info ('award entry error for ', user.userId)

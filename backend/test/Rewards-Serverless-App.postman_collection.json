@@ -12,12 +12,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{host}}:3000/dev/allusers",
-					"protocol": "http",
+					"raw": "{{host}}/dev/allusers",
 					"host": [
 						"{{host}}"
 					],
-					"port": "3000",
 					"path": [
 						"dev",
 						"allusers"
@@ -33,16 +31,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{host}}:3000/dev/user/{{u2}}",
-					"protocol": "http",
+					"raw": "{{host}}/dev/user\n",
 					"host": [
 						"{{host}}"
 					],
-					"port": "3000",
 					"path": [
 						"dev",
-						"user",
-						"{{u2}}"
+						"user\n"
 					]
 				},
 				"description": "Get one specific user"
@@ -56,7 +51,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"description\": \"Hotel Booking\",\n\t\"points\": 45\n}",
+					"raw": "{\n\t\"description\": \"Concert Ticket\",\n\t\"points\": 30\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -64,17 +59,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{host}}:3000/dev/user/redeem/{{u1}}",
-					"protocol": "http",
+					"raw": "{{host}}/dev/user/redeem",
 					"host": [
 						"{{host}}"
 					],
-					"port": "3000",
 					"path": [
 						"dev",
 						"user",
-						"redeem",
-						"{{u1}}"
+						"redeem"
 					]
 				},
 				"description": "Redeem rewards for a user"
@@ -87,17 +79,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{host}}:3000/dev/user/rewards/{{u2}}",
-					"protocol": "http",
+					"raw": "{{host}}/dev/user/rewards",
 					"host": [
 						"{{host}}"
 					],
-					"port": "3000",
 					"path": [
 						"dev",
 						"user",
-						"rewards",
-						"{{u2}}"
+						"rewards"
 					]
 				},
 				"description": "Get rewards line item details"
@@ -114,17 +103,14 @@
 					"raw": "{\n\t\"description\": \"Space Travel\",\n\t\"points\": 10000\n}"
 				},
 				"url": {
-					"raw": "http://{{host}}:3000/dev/user/redeem/{{u1}}",
-					"protocol": "http",
+					"raw": "{{host}}/dev/user/redeem",
 					"host": [
 						"{{host}}"
 					],
-					"port": "3000",
 					"path": [
 						"dev",
 						"user",
-						"redeem",
-						"{{u1}}"
+						"redeem"
 					]
 				},
 				"description": "Trying to redeem 10000 ponts that shoud give error"
@@ -137,20 +123,36 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://{{host}}:3000/dev/user/uploadurl/url-user-1",
-					"protocol": "http",
+					"raw": "{{host}}/dev/user/uploadurl",
 					"host": [
 						"{{host}}"
 					],
-					"port": "3000",
 					"path": [
 						"dev",
 						"user",
-						"uploadurl",
-						"url-user-1"
+						"uploadurl"
 					]
 				},
 				"description": "get a presiged URL to upload avatar"
+			},
+			"response": []
+		},
+		{
+			"name": "deleteUser",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/dev/user",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"dev",
+						"user"
+					]
+				},
+				"description": "deletes current users and associated rewards line items"
 			},
 			"response": []
 		}
@@ -158,6 +160,11 @@
 	"auth": {
 		"type": "oauth2",
 		"oauth2": [
+			{
+				"key": "accessToken",
+				"value": "{{authToken}}",
+				"type": "string"
+			},
 			{
 				"key": "addTokenTo",
 				"value": "header",
@@ -189,56 +196,26 @@
 	],
 	"variable": [
 		{
-			"id": "8115585d-d3aa-467b-80d8-f59d281b99cc",
+			"id": "b673a95c-adf2-4868-a539-40b23d4c06d8",
+			"key": "authToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "07821ba6-1652-499b-ad54-500da21d7a26",
+			"key": "awsHost",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "b7a045cc-d032-4cca-a914-c3e0cca7d0c7",
+			"key": "localHost",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "84901a61-0008-47db-8f30-673902ffd69f",
 			"key": "host",
-			"value": "",
-			"type": "string"
-		},
-		{
-			"id": "cd8062bf-140f-4140-9b63-20fae2c628f6",
-			"key": "u1",
-			"value": "",
-			"type": "string"
-		},
-		{
-			"id": "0b8c7a5a-98ae-4aeb-bb4c-a6b835013187",
-			"key": "u2",
-			"value": "",
-			"type": "string"
-		},
-		{
-			"id": "d8d406fc-427a-4648-97ef-c504419150d3",
-			"key": "u3",
-			"value": "",
-			"type": "string"
-		},
-		{
-			"id": "23998734-feb5-4578-8f0c-1740662b40c4",
-			"key": "d1",
-			"value": "",
-			"type": "string"
-		},
-		{
-			"id": "9bc4f8ed-0c08-4293-84ea-c845120251b1",
-			"key": "d2",
-			"value": "",
-			"type": "string"
-		},
-		{
-			"id": "3f65460c-f7e3-430e-9599-75220486b712",
-			"key": "d3",
-			"value": "",
-			"type": "string"
-		},
-		{
-			"id": "72099d39-894c-4243-8ebd-fc8ad06cb80b",
-			"key": "currentAccessToken",
-			"value": "",
-			"type": "string"
-		},
-		{
-			"id": "9ded564e-5172-4d17-a2a7-7e4c65f60c9a",
-			"key": "accessTokenExpiry",
 			"value": "",
 			"type": "string"
 		}

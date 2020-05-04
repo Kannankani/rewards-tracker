@@ -7,13 +7,14 @@ events:
       authorizer: Auth
 
 iamRoleStatements:
-  - effect: Allow
+  - Effect: Allow
     Action:
       - codedeploy:'*'
     Resource: 
       - '*'
-  - effect: Allow
+  - Effect: Allow
     Action: 
+      - dynamodb:Scan
       - dynamodb:GetItem
-      - dynamodb.Scan
+      - dynamodb:Query
     Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.REDEEM_TABLE}

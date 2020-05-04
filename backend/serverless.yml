@@ -24,13 +24,13 @@ provider:
 
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
-    USER_TABLE: User-${self:provider.stage}
-    REDEEM_TABLE: Redeem-${self:provider.stage}
-    IS_OFFLINE: ${env:OFFLINE}
+    USER_TABLE: Reward-User-${self:provider.stage}
+    REDEEM_TABLE: Reward-Redeem-${self:provider.stage}
+    #IS_OFFLINE: ${env:OFFLINE}
     DB_OFFLINE_URL: 'http://localhost:8000'
     IMAGES_S3_BUCKET: serverless-sk-reward-tracker-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
-    REWARDS_RUN_SCHEDULE: '5 minutes'
+    REWARDS_RUN_SCHEDULE: '1 hour'
   
 
 custom:
@@ -63,7 +63,7 @@ functions:
     ${file(resources/function-getUser.yml)}
 
   deleteUser:
-      ${file(resources/function-deleteUser.yml)}
+    ${file(resources/function-deleteUser.yml)}
 
   redeemRewards:
     ${file(resources/function-redeem.yml)}

@@ -8,9 +8,6 @@
   },
   "dependencies": {
     "aws-xray-sdk": "^3.0.0",
-    "express-jwt": "^5.3.3",
-    "express-jwt-authz": "^2.3.1",
-    "jwks-rsa": "^1.8.0",
     "serverless-dynamodb-client": "0.0.2",
     "source-map-support": "^0.5.10",
     "uuid": "^7.0.3",

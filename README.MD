@@ -28,7 +28,9 @@ Developed using node.js, typescript, dynamodb and AWS Lamda with serverless fram
 ## Testing
 
 - Since there is no frond end yet, postman collection in ```test``` folder can be used to test
-- ```authToken``` variable has to be set to a valid JWT token 
+- ```authToken``` variable has to be set to a valid oauth2 JWT token 
+- ```https://github.com/Kannankani/todo-app-serverless``` fronend can be used to generate token
+- *Note: Postman generate token function embedded chrome has been blocked by google and cannot used*
 
 ## Services
 
@@ -115,7 +117,7 @@ Developed using node.js, typescript, dynamodb and AWS Lamda with serverless fram
     ```
 
 - redeemRewards
-    - Request to redeem rewards for current users. Rewards totals adjusted. Returns error if there are not eough points
+    - Request to redeem rewards for current users. Rewards entry is made and rewards totals adjusted (subtracted). Returns error if there are not eough points
 
         request body
 
