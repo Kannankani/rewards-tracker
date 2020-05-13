@@ -26,7 +26,7 @@ provider:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
     USER_TABLE: Reward-User-${self:provider.stage}
     REDEEM_TABLE: Reward-Redeem-${self:provider.stage}
-    #IS_OFFLINE: ${env:OFFLINE}
+    IS_OFFLINE: ${env:OFFLINE}
     DB_OFFLINE_URL: 'http://localhost:8000'
     IMAGES_S3_BUCKET: serverless-sk-reward-tracker-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300

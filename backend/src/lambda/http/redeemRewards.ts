@@ -46,7 +46,15 @@ export const RedeemRewards: APIGatewayProxyHandler = async (event, _context) => 
         return ret_err_msg (500,'not enough points to redeem')
     }
 
-    user.pointsTotal -= redeem.points
+    if (redeem.points < -1) {
+        logger.info ('invalide redeem points', 
+            {available: user.pointsTotal,
+             Requested: redeem.points})
+        return ret_err_msg (500,'not enough points to redeem')
+    }
+
+    redeem.points *= -1
+    user.pointsTotal += redeem.points
 
     try {
         await userDA.updateUser (user)
